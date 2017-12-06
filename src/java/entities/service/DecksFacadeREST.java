@@ -81,7 +81,7 @@ public class DecksFacadeREST extends AbstractFacade<Decks> {
     @Path("findByClassid/{classid}")
     @Produces({"application/xml", "application/json"})
     public List<Decks> findByClassid(@PathParam("classid") String classid) {
-        Query q = em.createQuery("SELECT DISTINCT d FROM Decks d JOIN Assignments a ON d.id = a.deckid WHERE a.classid = " + classid + " ORDER BY d.deckname");
+        Query q = em.createQuery("SELECT DISTINCT d FROM Decks d WHERE d.classid = " + classid + " ORDER BY d.deckname");
         return q.getResultList();
     }
 
