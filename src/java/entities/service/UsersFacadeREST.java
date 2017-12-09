@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -66,6 +67,16 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     public List<Users> findAll() {
         return super.findAll();
     }
+    
+    @GET
+    @Path("findByUsername/{username}")
+    @Produces({"application/xml", "application/json"})
+    public List<Users> findByUsername(@PathParam("username") String username) {
+        Query q = em.createQuery("SELECT DISTINCT u FROM Users u WHERE lower( u.username) = lower(:username)");
+        q.setParameter("username", username);
+        return q.getResultList();
+    }
+    
 
     @GET
     @Path("{from}/{to}")
