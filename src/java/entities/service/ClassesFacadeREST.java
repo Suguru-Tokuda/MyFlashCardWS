@@ -68,6 +68,14 @@ public class ClassesFacadeREST extends AbstractFacade<Classes> {
         Query q = em.createQuery("SELECT c FROM Classes c ORDER BY c.classnumber");
         return q.getResultList();
     }
+    
+    @GET
+    @Path("classByDeckid/{deckid}")
+    @Produces({"application/xml", "application/json"})
+    public List<Classes> findClassByDeckid(@PathParam("deckid") String deckid) {
+        Query q = em.createQuery("SELECT c FROM Classes c JOIN Decks d ON c.id = d.classid WHERE d.id = " + deckid);
+        return q.getResultList();
+    }
 
     @GET
     @Override
